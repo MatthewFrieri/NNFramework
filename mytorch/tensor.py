@@ -30,6 +30,26 @@ class Tensor:
             res = on * self.der.calc(i)
             t.back(res)
 
+    def show_tree(self):
+        print(self._get_tree(0, 2, {"": 96}))
+
+    def _get_tree(self, indent: int, inc: int, name_map: dict):
+        res = ""
+        if self.der is None:
+            key = id(self)
+            if key not in name_map:
+                name_map[key] = max(name_map.values()) + 1
+            name = chr(name_map[key])
+        else:
+            name = self.der.__class__.__name__[3:]
+        sym = ["o", ">"][indent // inc % 2]
+        res += f"\n{' ' * indent}{sym} {name}"
+        if self.der is None:
+            return res
+        for operand in self.der.operands:
+            res += operand._get_tree(indent + inc, inc, name_map)
+        return res
+
     def __add__(self, other: Tensor):
         y = Tensor(self._data + other._data)
         y.der = DerAdd(self, other)
