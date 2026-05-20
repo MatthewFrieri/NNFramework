@@ -1,0 +1,1 @@
+Scalar = int | float
