@@ -1,13 +1,19 @@
 import mytorch as mt
-from model import BaseModel
-from data_loader import BaseDataLoader
+from mynn.model import BaseModel
+from mynn.data_loader import BaseDataLoader
 
 
 class Trainer:
 
-    def __init__(self, model: BaseModel, data_loader: BaseDataLoader):
+    def __init__(
+        self,
+        model: BaseModel,
+        data_loader: BaseDataLoader,
+        epochs: int,
+    ):
         self._model = model
         self._data_loader = data_loader
+        self._epochs = epochs
 
     def train(self):
 
