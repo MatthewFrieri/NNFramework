@@ -28,12 +28,12 @@ class Tensor:
         return cls(rng.random(shape))
 
     def zero_grads(self):
-        self.grade = np.zeros(self.shape)
+        self.grad = np.zeros(self.shape)
         if self._der is not None:
             for t, _ in self._der.calc():
                 t.zero_grads()
 
-    def back(self, on: float):
+    def back(self, on: np.ndarray):
         if self._der is None:
             self.grad += on
             return
