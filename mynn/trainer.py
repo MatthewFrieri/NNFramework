@@ -5,17 +5,18 @@ from data_loader import BaseDataLoader
 
 class Trainer:
 
-    def __init__(self, model: BaseModel):
+    def __init__(self, model: BaseModel, data_loader: BaseDataLoader):
         self._model = model
+        self._data_loader = data_loader
 
-    def train(self, data_loader: BaseDataLoader):
+    def train(self):
 
         self.on_train_start()
 
         for epoch_idx in range(self._epochs):
             self.on_train_epoch_start(epoch_idx)
 
-            for batch_idx, batch in enumerate(self.data_loader):
+            for batch_idx, batch in enumerate(self._data_loader.train_data()):
                 self.on_train_batch_start(batch_idx, batch)
 
                 y_pred = self._model.forward(batch)
@@ -52,11 +53,11 @@ class Trainer:
     ):
         pass
 
-    def test(self, data_loader: BaseDataLoader):
+    def test(self):
 
         self.on_test_start()
 
-        for batch_idx, batch in enumerate(self.data_loader):
+        for batch_idx, batch in enumerate(self._data_loader.test_data()):
 
             self.on_test_batch_start(batch_idx, batch)
 
