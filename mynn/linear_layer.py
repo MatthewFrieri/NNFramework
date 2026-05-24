@@ -13,3 +13,6 @@ class LinearLayer:
         y = mt.Tensor.mat_mul(batch, self._weights)
         z = y + self._biases
         return z
+
+    def parameters(self) -> list[mt.Tensor]:
+        return [self._weights, self._biases]

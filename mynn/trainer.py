@@ -1,6 +1,10 @@
+from typing import Optional
+
 import mytorch as mt
 from mynn.model import BaseModel
 from mynn.data_loader import BaseDataLoader
+from mynn.optimizers.base_optimizer import BaseOptimizer
+from mynn.optimizers.adam_optimizer import AdamOptimizer
 
 
 class Trainer:
@@ -9,10 +13,15 @@ class Trainer:
         self,
         model: BaseModel,
         data_loader: BaseDataLoader,
+        optimizer: Optional[BaseOptimizer],
         epochs: int,
     ):
         self._model = model
+        self._model_params = model.parameters()
         self._data_loader = data_loader
+        if optimizer is None:
+            optimizer = AdamOptimizer(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-7)
+        self._optimizer = optimizer
         self._epochs = epochs
 
     def train(self):
@@ -33,6 +42,7 @@ class Trainer:
                 loss = self._model.compute_loss(batch, y_pred)
                 loss.zero_grads()
                 loss.back(on=1.0)
+                self._optimizer.tune(self._model_params)
 
                 self.on_train_batch_end(batch_idx, batch, y_pred, loss)
 

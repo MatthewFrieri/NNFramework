@@ -1,3 +1,5 @@
+from typing import Iterable
+
 import mytorch as mt
 from abc import ABC, abstractmethod
 
@@ -22,4 +24,8 @@ class BaseModel(ABC):
         Computes the loss for a batch.
         Returns a Tensor of a scalar loss.
         """
+        pass
+
+    @abstractmethod
+    def parameters(self) -> Iterable[mt.Tensor]:
         pass
