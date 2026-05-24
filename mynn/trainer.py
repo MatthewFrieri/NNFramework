@@ -1,5 +1,3 @@
-from abc import abstractmethod
-
 import mytorch as mt
 from model import BaseModel
 from data_loader import BaseDataLoader
