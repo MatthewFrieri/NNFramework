@@ -7,8 +7,8 @@ import numpy as np
 
 class Tensor:
 
-    def __init__(self, data: np.ndarray | list):
-        if isinstance(data, list):
+    def __init__(self, data: np.ndarray):
+        if not isinstance(data, np.ndarray):
             data = np.array(data)
         self._data = data
         self.shape: tuple = data.shape
