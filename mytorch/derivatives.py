@@ -1,14 +1,15 @@
 import numpy as np
+from abc import ABC, abstractmethod
 
-# ================== Abstract Classes ==================
 
-
-class Derivative:
+class Derivative(ABC):
+    @abstractmethod
     def __init__(self):
-        raise NotImplementedError
+        pass
 
+    @abstractmethod
     def calc(self):
-        raise NotImplementedError
+        pass
 
 
 class DerTS(Derivative):
