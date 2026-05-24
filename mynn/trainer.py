@@ -16,7 +16,11 @@ class Trainer:
         self._epochs = epochs
 
     def train(self):
-
+        """
+        Train the model.
+        Iterates through epochs and batches, calling forward, computing loss, then backproping on that loss.
+        Uses the optimizer to tune model weights at each step.
+        """
         self.on_train_start()
 
         for epoch_idx in range(self._epochs):
@@ -60,6 +64,10 @@ class Trainer:
         pass
 
     def test(self):
+        """
+        Test the model.
+        Iterates through epochs and batches, calling forward and computing loss.
+        """
 
         self.on_test_start()
 
