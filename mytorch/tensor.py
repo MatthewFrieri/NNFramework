@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Optional
 from mytorch.const import Scalar
 from mytorch.derivatives import *
 import numpy as np
@@ -11,8 +12,9 @@ class Tensor:
             data = np.array(data)
         self._data = data
         self.shape: tuple = data.shape
-        self.der = None
-        self._reset_grad()
+        self.ndim = len(data.shape)
+        self.der: Optional[Derivative] = None
+        self.zero_grads()
 
     @classmethod
     def with_der(cls, data: np.ndarray | list, der: Derivative):
@@ -25,8 +27,11 @@ class Tensor:
         rng = np.random.default_rng()
         return cls(rng.random(shape))
 
-    def _reset_grad(self):
-        self.grad = np.zeros(self.shape)
+    def zero_grads(self):
+        self.grade = np.zeros(self.shape)
+        if self.der is not None:
+            for t, _ in self.der.calc():
+                t.zero_grads()
 
     def back(self, on: float):
         if self.der is None:
@@ -83,6 +88,10 @@ class Tensor:
 
     def __rtruediv__(self, other):
         return Tensor.div(other, self)
+
+    @classmethod
+    def mat_mul(cls, t1, t2):
+        pass
 
     @classmethod
     def add(cls, x1, x2):
